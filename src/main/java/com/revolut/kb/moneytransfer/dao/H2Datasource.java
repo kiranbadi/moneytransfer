@@ -23,7 +23,7 @@ private static final Logger LOGGER = LogManager.getLogger(H2Datasource.class);
     static {
         LOGGER.info("Getting the Hikari Datasource connection");
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:h2:~/test");
+        config.setJdbcUrl("jdbc:h2:~/test;MODE=MySQL");
         config.setUsername("sa");
         config.setPassword("");
         config.setDriverClassName("org.h2.jdbcx.JdbcDataSource");
