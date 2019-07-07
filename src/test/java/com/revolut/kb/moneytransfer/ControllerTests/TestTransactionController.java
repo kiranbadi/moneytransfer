@@ -59,10 +59,11 @@ public class TestTransactionController {
     }
     
     
+    
     // Testcase to insert valid transaction record for deposit
     @Test
     public void RecordTransactionForAccountOfCustomerTest() throws JSONException, InterruptedException {
-        String URL = "http://localhost:8082/rest/transaction/action";
+        String URL = "http://localhost:8080/rest/transaction/action";
         String PostBody = getTransactionModelData(Long.valueOf(2495439),Long.valueOf(11270),"WITHDRAWAL");
         LOGGER.info("PostBody for RecordTransactionForAccountOfCustomerTest -\n {}",PostBody);
         RequestSpecBuilder builder = new RequestSpecBuilder();
@@ -74,6 +75,10 @@ public class TestTransactionController {
         LOGGER.info("RecordTransactionForAccountOfCustomerTest test response is \n{}", JSONResponseBody);
         String result = JSONResponseBody.getString("status");
         Assert.assertEquals("Success", result);
+    }
+    
+    public void TransferFundsTest() throws JSONException, InterruptedException {
+        String URL ="localhost:8080/rest/transaction/transferfunds";
     }
     
 }
