@@ -48,7 +48,8 @@ public class AccountsDAOImpl implements AccountDAO {
         int accountsCreated = 0;
         try {
             QueryRunner queryRunner = new QueryRunner();
-            connection = MysqlDatasource.getHikariDatasourceConnection();
+            //    connection = MysqlDatasource.getHikariDatasourceConnection();
+            connection = H2Datasource.getH2HikariDatasourceConnection();
             accountsCreated = queryRunner.update(connection, CREATE_ACCOUNTS_SQL, accountsModel.getAccountType(), accountsModel.getAccountInitialBalance(), accountsModel.getAccountNumber(), accountsModel.getCustomerNumber());
             LOGGER.info("Number of Accounts inserted  {} for Customer {} ", accountsCreated, accountsModel.getCustomerNumber());
         } catch (SQLException ex) {
@@ -64,7 +65,9 @@ public class AccountsDAOImpl implements AccountDAO {
         boolean status = false;
         try {
             QueryRunner queryRunner = new QueryRunner();
-            connection = MysqlDatasource.getHikariDatasourceConnection();
+            //    connection = MysqlDatasource.getHikariDatasourceConnection();
+            connection = H2Datasource.getH2HikariDatasourceConnection();
+
             ResultSetHandler<AccountsModel> resultHandler = new BeanHandler<>(AccountsModel.class);
             AccountsModel accountsModelResultSet = queryRunner.query(connection, CHECK_ACCOUNTNUMBER_BY_CUSTNUM_ACCTYPE, resultHandler, AccountType, CustomerNumber);
             if (accountsModelResultSet != null) {
@@ -87,7 +90,9 @@ public class AccountsDAOImpl implements AccountDAO {
         try {
             ScalarHandler<Long> scalarHandler = new ScalarHandler<>();
             QueryRunner queryRunner = new QueryRunner();
-            connection = MysqlDatasource.getHikariDatasourceConnection();
+            //     connection = MysqlDatasource.getHikariDatasourceConnection();
+            connection = H2Datasource.getH2HikariDatasourceConnection();
+
             long Count = queryRunner.query(connection, IS_ACCOUNT_NUMBER_VALID, scalarHandler, AccountNumber);
             if (Count != 0) {
                 status = true;
@@ -112,7 +117,9 @@ public class AccountsDAOImpl implements AccountDAO {
         try {
             ScalarHandler<Long> scalarHandler = new ScalarHandler<>();
             QueryRunner queryRunner = new QueryRunner();
-            connection = MysqlDatasource.getHikariDatasourceConnection();
+            //        connection = MysqlDatasource.getHikariDatasourceConnection();
+            connection = H2Datasource.getH2HikariDatasourceConnection();
+
             long Count = queryRunner.query(connection, CUSTOMER_NUMBER_ACCOUNT_NUMBER_RELATION, scalarHandler, customerNumber, accountNumber);
             if (Count != 0) {
                 status = true;
@@ -136,7 +143,9 @@ public class AccountsDAOImpl implements AccountDAO {
         boolean insertStatus = false;
         try {
             QueryRunner queryRunner = new QueryRunner();
-            connection = MysqlDatasource.getHikariDatasourceConnection();
+            //       connection = MysqlDatasource.getHikariDatasourceConnection();
+            connection = H2Datasource.getH2HikariDatasourceConnection();
+
             int count = queryRunner.update(connection, INSERT_TRANSACTION_IN_LEDGER, accountLedgerModel.getAccountNumber(), accountLedgerModel.getCustomerNumber(), accountLedgerModel.getDeposit(), accountLedgerModel.getWithdrawal(), accountLedgerModel.getAvailableBalance(), accountLedgerModel.getAccountType());
             if (count > 1) {
                 insertStatus = true;
@@ -155,7 +164,9 @@ public class AccountsDAOImpl implements AccountDAO {
     public BigDecimal GetAccountBalanceInformationForCustomer(Long CustomerNumber, Long AccountNumber) {
         BigDecimal accountBalance = new BigDecimal(0);
         try {
-            connection = MysqlDatasource.getHikariDatasourceConnection();
+            //         connection = MysqlDatasource.getHikariDatasourceConnection();
+            connection = H2Datasource.getH2HikariDatasourceConnection();
+
             preparedStatement = connection.prepareStatement(GET_ACCOUNT_BALANCE_SQL);
             preparedStatement.setLong(1, CustomerNumber);
             preparedStatement.setLong(2, AccountNumber);
@@ -179,7 +190,9 @@ public class AccountsDAOImpl implements AccountDAO {
         boolean fundTransferStatus = false;
         try {
             QueryRunner queryRunner = new QueryRunner();
-            connection = MysqlDatasource.getHikariDatasourceConnection();
+            //      connection = MysqlDatasource.getHikariDatasourceConnection();
+            connection = H2Datasource.getH2HikariDatasourceConnection();
+
             int count = queryRunner.update(connection, FUNDS_TRANSFER_SQL, transferModel.getTransId(), transferModel.getFromAccountNumber(), transferModel.getFromCustomerNumber(), transferModel.getToAccountNumber(), transferModel.getToCustomerNumber(), transferModel.getTransferAmount());
             if (count == 1) {
                 fundTransferStatus = true;
@@ -200,7 +213,9 @@ public class AccountsDAOImpl implements AccountDAO {
         try {
             ScalarHandler<Long> scalarHandler = new ScalarHandler<>();
             QueryRunner queryRunner = new QueryRunner();
-            connection = MysqlDatasource.getHikariDatasourceConnection();
+            //      connection = MysqlDatasource.getHikariDatasourceConnection();
+            connection = H2Datasource.getH2HikariDatasourceConnection();
+
             long Count = queryRunner.query(connection, DOES_TRANSACTIONID_FOR_FUNDSTRANSFER_EXIST_SQL, scalarHandler, transactionid);
             if (Count != 0) {
                 status = true;
@@ -228,8 +243,10 @@ public class AccountsDAOImpl implements AccountDAO {
         try {
             ScalarHandler<Long> scalarHandler = new ScalarHandler<>();
             QueryRunner queryRunner = new QueryRunner();
-            connection = MysqlDatasource.getHikariDatasourceConnection();
-            Long Count = queryRunner.query(connection, CHECK_PAYEE_BYACCOUNTNUMBER_BY_CUSTNUM_ACCTYPE, scalarHandler,payeeModel.getAccountNumber(),payeeModel.getCustomerNumber(),payeeModel.getPayeeAccountNumber(),payeeModel.getPayeeCustomerNumber());
+            //       connection = MysqlDatasource.getHikariDatasourceConnection();
+            connection = H2Datasource.getH2HikariDatasourceConnection();
+
+            Long Count = queryRunner.query(connection, CHECK_PAYEE_BYACCOUNTNUMBER_BY_CUSTNUM_ACCTYPE, scalarHandler, payeeModel.getAccountNumber(), payeeModel.getCustomerNumber(), payeeModel.getPayeeAccountNumber(), payeeModel.getPayeeCustomerNumber());
             if (Count != 0) {
                 status = true;
                 LOGGER.info("Customer Number {} is related to Payee Account {} with status {}", payeeModel, status);

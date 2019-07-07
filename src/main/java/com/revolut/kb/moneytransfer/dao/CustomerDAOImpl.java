@@ -44,13 +44,14 @@ public class CustomerDAOImpl implements CustomerDAO {
         int records = 0;
         try {
             QueryRunner queryRunner = new QueryRunner();
-            connection = MysqlDatasource.getHikariDatasourceConnection();
+        //    connection = MysqlDatasource.getHikariDatasourceConnection();
+            connection = H2Datasource.getH2HikariDatasourceConnection();
             records = queryRunner.update(connection, CREATE_USER_SQL, customerModel.getName(), customerModel.getEmail(), customerModel.getStatus(), customerModel.getCustAccountNumber());
             LOGGER.info("Number of records inserted  {} ", records);
         } catch (SQLException ex) {
             LOGGER.error("Logging SQLException {}", ex);
         } finally {
-            DbUtils.close(connection);
+            DbUtils.closeQuietly(connection, preparedStatement, resultSet);
         }
         return records;
     }
@@ -61,7 +62,9 @@ public class CustomerDAOImpl implements CustomerDAO {
         try {
             ScalarHandler<Long> scalarHandler = new ScalarHandler<>();
             QueryRunner queryRunner = new QueryRunner();
-            connection = MysqlDatasource.getHikariDatasourceConnection();
+      //      connection = MysqlDatasource.getHikariDatasourceConnection();
+            connection = H2Datasource.getH2HikariDatasourceConnection();
+
             long Count = queryRunner.query(connection, IS_CUSTOMER_NUMBER_VALID, scalarHandler, CustAccountNumber);
             if (Count != 0) {
                 status = true;
@@ -73,7 +76,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         } catch (SQLException ex) {
             LOGGER.error("Logging SQLException {}", ex);
         } finally {
-            DbUtils.close(connection);
+             DbUtils.closeQuietly(connection, preparedStatement, resultSet);
         }
         return status;
     }
@@ -82,17 +85,15 @@ public class CustomerDAOImpl implements CustomerDAO {
     public void AddPayeeToCustomerAccount(PayeeModel payeeModel) {
         try {
             QueryRunner queryRunner = new QueryRunner();
-            connection = MysqlDatasource.getHikariDatasourceConnection();
+        //    connection = MysqlDatasource.getHikariDatasourceConnection();
+            connection = H2Datasource.getH2HikariDatasourceConnection();
+
             int count = queryRunner.update(connection, ADD_PAYEE_ACCOUNT, payeeModel.getAccountNumber(), payeeModel.getCustomerNumber(), payeeModel.getPayeeName(), payeeModel.getPayeeAccountNumber(), payeeModel.getPayeeCustomerNumber(), payeeModel.getPayeeEmail(), payeeModel.getPayeePhone(), payeeModel.getPayeeNickName(), payeeModel.getPayeeNotes());
             LOGGER.info("Number of records inserted  {} ", count);
         } catch (SQLException ex) {
             LOGGER.error("Logging SQLException {}", ex);
         } finally {
-            try {
-                DbUtils.close(connection);
-            } catch (SQLException ex) {
-                LOGGER.error("Logging SQLException {}", ex);
-            }
+            DbUtils.closeQuietly(connection, preparedStatement, resultSet);
         }
     }
 
@@ -102,7 +103,9 @@ public class CustomerDAOImpl implements CustomerDAO {
         try {
             ScalarHandler<Long> scalarHandler = new ScalarHandler<>();
             QueryRunner queryRunner = new QueryRunner();
-            connection = MysqlDatasource.getHikariDatasourceConnection();
+       //     connection = MysqlDatasource.getHikariDatasourceConnection();
+            connection = H2Datasource.getH2HikariDatasourceConnection();
+
             long Count = queryRunner.query(connection, DOES_PAYEE_ACCOUNT_EXIST, scalarHandler, customerNumber, payeeAccountNumber, payeeCustomerNumber);
             if (Count != 0) {
                 status = true;
@@ -114,11 +117,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         } catch (SQLException ex) {
             LOGGER.error("Logging SQLException {}", ex);
         } finally {
-            try {
-                DbUtils.close(connection);
-            } catch (SQLException ex) {
-                LOGGER.error("Logging SQLException {}", ex);
-            }
+            DbUtils.closeQuietly(connection, preparedStatement, resultSet);
         }
         return status;
     }

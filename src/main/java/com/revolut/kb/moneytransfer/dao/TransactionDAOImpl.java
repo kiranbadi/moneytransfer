@@ -59,8 +59,10 @@ public class TransactionDAOImpl implements TransactionsDAO {
         boolean isTransactionRecordCreated = false;
         try {
             QueryRunner queryRunner = new QueryRunner();
-            connection = MysqlDatasource.getHikariDatasourceConnection();
-            int insertCount = queryRunner.update(connection, INSERT_TRANSACTION_DETAIL_SQL, transactions.getAccountNumber(), transactions.getCustomerNumber(), transactions.getAmount(),transactions.getAccountType(), transactions.getTransactionId(), transactions.getTransactionType());
+            //     connection = MysqlDatasource.getHikariDatasourceConnection();
+            connection = H2Datasource.getH2HikariDatasourceConnection();
+
+            int insertCount = queryRunner.update(connection, INSERT_TRANSACTION_DETAIL_SQL, transactions.getAccountNumber(), transactions.getCustomerNumber(), transactions.getAmount(), transactions.getAccountType(), transactions.getTransactionId(), transactions.getTransactionType());
             if (insertCount == 0) {
                 isTransactionRecordCreated = false;
                 LOGGER.error("No records inserted for - RecordTransactionDetailForAccountAndCustomer - Customer \n {}", transactions);
@@ -79,7 +81,6 @@ public class TransactionDAOImpl implements TransactionsDAO {
         return isTransactionRecordCreated;
     }
 
-    
     // Checks if transactionid exist in database.
     @Override
     public boolean DoesTransactionIdExist(Long transactionId) {
@@ -87,7 +88,9 @@ public class TransactionDAOImpl implements TransactionsDAO {
         try {
             ScalarHandler<Long> scalarHandler = new ScalarHandler<>();
             QueryRunner queryRunner = new QueryRunner();
-            connection = MysqlDatasource.getHikariDatasourceConnection();
+            //      connection = MysqlDatasource.getHikariDatasourceConnection();
+            connection = H2Datasource.getH2HikariDatasourceConnection();
+
             long Count = queryRunner.query(connection, DOES_TRANSACTIONID_EXIST_SQL, scalarHandler, transactionId);
             if (Count != 0) {
                 status = true;

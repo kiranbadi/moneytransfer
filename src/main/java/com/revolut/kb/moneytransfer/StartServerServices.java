@@ -49,7 +49,7 @@ public class StartServerServices {
     private static void StartH2Database() {
         try {
             LOGGER.info("Starting H2 DATABASE ");
-            String url = "jdbc:h2:~/test;INIT=RUNSCRIPT FROM 'classpath:/moneytransferdata.sql'";
+            String url = "jdbc:h2:~/test;INIT=RUNSCRIPT FROM 'classpath:/data.sql'";
             Class.forName("org.h2.Driver");
             Connection con = DriverManager.getConnection(url, "sa", "");
             File script = new File(StartServerServices.class.getResource("/moneytransferdata.sql").getFile());
