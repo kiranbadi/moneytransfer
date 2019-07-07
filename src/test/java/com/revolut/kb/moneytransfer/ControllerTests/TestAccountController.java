@@ -55,7 +55,7 @@ public class TestAccountController {
     // Test case tests validates the account open process for resgistered customers
     @Test
     public void OpenAccountForCustomerTest() throws JSONException, InterruptedException {
-        String URL = "http://localhost:8082/rest/accounts/openaccount";
+        String URL = "http://localhost:8080/rest/accounts/openaccount";
         String PostBody = getAccountsModelData(Long.valueOf(3020293));
         RequestSpecBuilder builder = new RequestSpecBuilder();
         builder.setBody(PostBody);
@@ -73,7 +73,7 @@ public class TestAccountController {
     @Test
     public void CanOpenAccountForCustomerTest() throws JSONException, InterruptedException {
         // Change the customer URL at the end of URL.
-        String URL = "http://localhost:8082/rest/accounts/isAccountNumberValid/6312730";       
+        String URL = "http://localhost:8080/rest/accounts/isAccountNumberValid/6312730";       
         RequestSpecBuilder builder = new RequestSpecBuilder();      
         builder.setContentType("application/json; charset=UTF-8");
         RequestSpecification requestSpec = builder.build();

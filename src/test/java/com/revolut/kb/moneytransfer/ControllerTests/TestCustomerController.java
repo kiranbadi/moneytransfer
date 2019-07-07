@@ -98,7 +98,7 @@ public class TestCustomerController {
     // Below test uses Rest Assured for testing json response
     @Test
     public void CreateCustomerPostRequest() throws JSONException, InterruptedException {
-        String URL = "http://localhost:8082/rest/customer/createcustomer";
+        String URL = "http://localhost:8080/rest/customer/createcustomer";
         String PostBody = CreateCustomerModelData();
         RequestSpecBuilder builder = new RequestSpecBuilder();
         builder.setBody(PostBody);
@@ -131,7 +131,7 @@ public class TestCustomerController {
     
     @Test
     public void AddPayeeToCustomerAccountTest() throws JSONException{
-        String URL = "http://localhost:8082/rest/customer/payee/add"; 
+        String URL = "http://localhost:8080/rest/customer/payee/add"; 
         String addPayeePostBody = CreatePayeeAccountData();
         RequestSpecBuilder builder = new RequestSpecBuilder();
         builder.setBody(addPayeePostBody);

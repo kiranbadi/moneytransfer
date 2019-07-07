@@ -7,9 +7,7 @@ package com.revolut.kb.moneytransfer.ControllerTests;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revolut.kb.moneytransfer.dao.AccountDAO;
 import com.revolut.kb.moneytransfer.dao.TransactionsDAO;
-import com.revolut.kb.moneytransfer.model.AccountsModel;
 import com.revolut.kb.moneytransfer.model.Transactions;
 import java.math.BigDecimal;
 import javax.inject.Inject;
