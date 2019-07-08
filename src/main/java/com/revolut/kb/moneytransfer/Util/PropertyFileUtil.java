@@ -29,7 +29,7 @@ public class PropertyFileUtil {
     //  Read the properties file from Classpath.    
     //TODO : Think of better way of handling when no value is found
     //       Rather than sending null value.
-    private static String readValueFromPropertiesFile(String key) {
+    public static String readValueFromPropertiesFile(String key) {
         PropertyFileUtil util = new PropertyFileUtil();
         Properties properties = util.loadProperties();
         String value = properties.getProperty(key);
@@ -41,7 +41,7 @@ public class PropertyFileUtil {
         return value;
     }
 
-    private Properties loadProperties() {
+    public Properties loadProperties() {
         Properties properties = new Properties();
         InputStream inputStream = null;
         try {
@@ -63,6 +63,11 @@ public class PropertyFileUtil {
             }
         }
         return properties;
+    }
+    
+    
+    public static void main(String args[]){
+        LOGGER.info("Key - {}" , readValueFromPropertiesFile("moneytransfer.database"));
     }
 
 }

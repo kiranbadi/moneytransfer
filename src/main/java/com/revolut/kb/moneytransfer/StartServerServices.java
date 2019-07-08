@@ -25,6 +25,7 @@ import org.apache.catalina.webresources.StandardRoot;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.h2.tools.RunScript;
+import org.h2.tools.Server;
 
 public class StartServerServices {
 
@@ -48,8 +49,9 @@ public class StartServerServices {
 
     private static void StartH2Database() {
         try {
+          //  Server server = Server.createTcpServer().start();
             LOGGER.info("Starting H2 DATABASE ");
-            String url = "jdbc:h2:~/test;INIT=RUNSCRIPT FROM 'classpath:/data.sql'";
+            String url = "jdbc:h2:~/test";
             Class.forName("org.h2.Driver");
             Connection con = DriverManager.getConnection(url, "sa", "");
             File script = new File(StartServerServices.class.getResource("/moneytransferdata.sql").getFile());

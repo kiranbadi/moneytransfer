@@ -27,7 +27,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     private static final String CREATE_USER_SQL = "INSERT INTO customer (CustName,CustEmail,CustStatus,CustAccountNumber) VALUES (?,?,?,?)";
     private static final String IS_CUSTOMER_NUMBER_VALID = "SELECT COUNT(*) AS COUNT from customer where CustAccountNumber = ?;";
     private static final String ADD_PAYEE_ACCOUNT = "INSERT INTO payeeaccount (ACCOUNT_NUMBER,CUSTOMER_NUMBER,PAYEE_NAME,PAYEE_ACCOUNT_NUMBER,PAYEE_CUSTOMER_NUMBER,PAYEE_EMAIL,PAYEE_PHONE,PAYEE_NICKNAME,PAYEE_NOTES) VALUES (?,?,?,?,?,?,?,?,?);";
-    private static final String DOES_PAYEE_ACCOUNT_EXIST = "SELECT EXISTS(SELECT PAYEE_ACCOUNT_NUMBER,PAYEE_CUSTOMER_NUMBER,CUSTOMER_NUMBER from payeeaccount WHERE CUSTOMER_NUMBER = ? AND PAYEE_ACCOUNT_NUMBER = ? AND  PAYEE_CUSTOMER_NUMBER = ?);";
+    private static final String DOES_PAYEE_ACCOUNT_EXIST = "SELECT COUNT(*) AS COUNT from payeeaccount WHERE CUSTOMER_NUMBER = ? AND PAYEE_ACCOUNT_NUMBER = ? AND  PAYEE_CUSTOMER_NUMBER = ?;";
 
     Connection connection = null;
     PreparedStatement preparedStatement = null;

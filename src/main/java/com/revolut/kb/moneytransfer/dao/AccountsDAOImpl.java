@@ -32,7 +32,7 @@ public class AccountsDAOImpl implements AccountDAO {
     private static final String CREATE_ACCOUNTS_SQL = "INSERT INTO accounts (ACCOUNT_TYPE,ACCOUNT_INITIAL_BALANCE,ACCOUNT_NUMBER,CUSTOMER_NUMBER) VALUES (?,?,?,?);";
     private static final String CHECK_ACCOUNTNUMBER_BY_CUSTNUM_ACCTYPE = "select * from accounts where ACCOUNT_TYPE = ? and CUSTOMER_NUMBER=?;";
     private static final String IS_ACCOUNT_NUMBER_VALID = "SELECT COUNT(*) AS COUNT from accounts where ACCOUNT_NUMBER = ?;";
-    private static final String CUSTOMER_NUMBER_ACCOUNT_NUMBER_RELATION = "SELECT EXISTS(SELECT CUSTOMER_NUMBER,ACCOUNT_NUMBER from accounts WHERE CUSTOMER_NUMBER = ? AND ACCOUNT_NUMBER= ?);";
+    private static final String CUSTOMER_NUMBER_ACCOUNT_NUMBER_RELATION = "SELECT COUNT(*) AS COUNT from accounts WHERE CUSTOMER_NUMBER = ? AND ACCOUNT_NUMBER= ?;";
     private static final String INSERT_TRANSACTION_IN_LEDGER = "INSERT INTO accountledger (ACCOUNT_NUMBER,CUSTOMER_NUMBER,DEPOSIT,WITHDRAWAL,AVAILABLE_BALANCE,ACCOUNT_TYPE) VALUES (?,?,?,?,?,?);";
     private static final String GET_ACCOUNT_BALANCE_SQL = "SELECT AVAILABLE_BALANCE AS BALANCE FROM accountledger WHERE CUSTOMER_NUMBER = ? AND ACCOUNT_NUMBER=?;";
     private static final String FUNDS_TRANSFER_SQL = "INSERT INTO fundstransfer(TRANSACTIONID,FROMACCOUNT,FROMCUSTOMER,TOACCOUNT,TOCUSTOMER,TRANSFERAMT) VALUES (?,?,?,?,?,?);";
@@ -118,9 +118,8 @@ public class AccountsDAOImpl implements AccountDAO {
             ScalarHandler<Long> scalarHandler = new ScalarHandler<>();
             QueryRunner queryRunner = new QueryRunner();
             //        connection = MysqlDatasource.getHikariDatasourceConnection();
-            connection = H2Datasource.getH2HikariDatasourceConnection();
-
-            long Count = queryRunner.query(connection, CUSTOMER_NUMBER_ACCOUNT_NUMBER_RELATION, scalarHandler, customerNumber, accountNumber);
+            connection = H2Datasource.getH2HikariDatasourceConnection();            
+            Long Count = queryRunner.query(connection, CUSTOMER_NUMBER_ACCOUNT_NUMBER_RELATION, scalarHandler, customerNumber, accountNumber);
             if (Count != 0) {
                 status = true;
                 LOGGER.info("Customer Number {} is related to Account Number {} with status {}", customerNumber, accountNumber, status);
