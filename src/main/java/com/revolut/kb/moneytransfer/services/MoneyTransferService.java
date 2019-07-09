@@ -13,13 +13,14 @@ import com.revolut.kb.moneytransfer.model.Transactions;
 import com.revolut.kb.moneytransfer.model.TransferModel;
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import javax.inject.Named;
 
 /**
  *
  * @author Kiran
  */
 
-
+@Named("moneyTransferService")
 public interface MoneyTransferService {
     
     // Customer services

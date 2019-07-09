@@ -13,9 +13,12 @@ import javax.servlet.ServletException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Level;
 import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.WebResourceRoot;
@@ -25,7 +28,6 @@ import org.apache.catalina.webresources.StandardRoot;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.h2.tools.RunScript;
-import org.h2.tools.Server;
 
 public class StartServerServices {
 
@@ -54,7 +56,9 @@ public class StartServerServices {
             String url = "jdbc:h2:~/test";
             Class.forName("org.h2.Driver");
             Connection con = DriverManager.getConnection(url, "sa", "");
-            File script = new File(StartServerServices.class.getResource("/moneytransferdata.sql").getFile());
+            URL path = StartServerServices.class.getResource("moneytransferdata.sql");
+            File script = new File(path.toURI());
+    //    File script = new File(StartServerServices.class.getResource("/moneytransferdata.sql").getFile());
             RunScript.execute(con, new FileReader(script));
         } catch (ClassNotFoundException ex) {
             LOGGER.error("ClassNotFoundException \n{}", ex);
@@ -62,6 +66,8 @@ public class StartServerServices {
             LOGGER.error("SQLException \n{}", ex);
         } catch (FileNotFoundException ex) {
             LOGGER.error("FileNotFoundException \n {}", ex);
+        } catch (URISyntaxException ex) {
+            LOGGER.error("URISyntaxException \n {}", ex);
         }
 
     }

@@ -10,15 +10,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 
 /**
  *
  * @author Kiran
  */
-public class CustomerUtilTests {
-    private static final Logger LOGGER = LogManager.getLogger(CustomerUtilTests.class);
+public class CustomerUtilTest {
+    private static final Logger LOGGER = LogManager.getLogger(CustomerUtilTest.class);
     CustomerUtil Util = new CustomerUtil();
     
     @Test

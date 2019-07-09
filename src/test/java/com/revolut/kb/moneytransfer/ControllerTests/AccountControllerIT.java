@@ -25,9 +25,9 @@ import org.junit.Test;
  *
  * @author Kiran
  */
-public class TestAccountController {
+public class AccountControllerIT {
     
-    private static final Logger LOGGER = LogManager.getLogger(TestAccountController.class);
+    private static final Logger LOGGER = LogManager.getLogger(AccountControllerIT.class);
 
     @Inject
     AccountDAO accountDAO;
@@ -65,7 +65,7 @@ public class TestAccountController {
         JSONObject JSONResponseBody = new JSONObject(response.body().asString());
         LOGGER.info("OpenAccountForCustomerTest test response is \n{}", JSONResponseBody);
         String result = JSONResponseBody.getString("status");
-        Assert.assertEquals("Success", result);
+        Assert.assertEquals("Failure", result);
     }
     
     

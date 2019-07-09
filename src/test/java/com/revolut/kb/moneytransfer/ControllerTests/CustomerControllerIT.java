@@ -34,9 +34,9 @@ import org.junit.Test;
  *  Tests create new customer, does customer already exists and add payee account to customer
  *  Valid Account and Customer numbers are required.
  */
-public class TestCustomerController {
+public class CustomerControllerIT {
 
-    private static final Logger LOGGER = LogManager.getLogger(TestCustomerController.class);
+    private static final Logger LOGGER = LogManager.getLogger(CustomerControllerIT.class);
     Client client = ClientBuilder.newClient();
 
     // method to generate CustomerModel data.
@@ -83,7 +83,7 @@ public class TestCustomerController {
        // Test using jersey client for create customers.
     @Test
     public void CreateCustomer(){        
-        final String CREATE_CUSTOMER_URL = "http://localhost:8082/rest/customer/createcustomer";
+        final String CREATE_CUSTOMER_URL = "http://localhost:8080/rest/customer/createcustomer";
         String CreateCustomerPostBody = CreateCustomerModelData();
         WebTarget target = client.target(CREATE_CUSTOMER_URL);
         Response response = target.request("application/json").post(Entity.json(CreateCustomerPostBody));        
@@ -116,7 +116,7 @@ public class TestCustomerController {
     @Test
     public void CheckCustomerNumberTest() throws JSONException{
         String validCustomer_number = "8385100";
-        String URL = "http://localhost:8082/rest/customer/isCustomerNumberValid/"; 
+        String URL = "http://localhost:8080/rest/customer/isCustomerNumberValid/"; 
         RequestSpecBuilder builder = new RequestSpecBuilder();
         builder.setContentType("application/json; charset=UTF-8");
         RequestSpecification requestSpec = builder.build();
