@@ -66,8 +66,8 @@ public class PropertyFileUtil {
     }
     
     
-    public static void main(String args[]){
-        LOGGER.info("Key - {}" , readValueFromPropertiesFile("moneytransfer.database"));
-    }
+//    public static void main(String args[]){
+//        LOGGER.info("Key - {}" , readValueFromPropertiesFile("moneytransfer.database"));
+//    }
 
 }

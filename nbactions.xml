@@ -7,4 +7,23 @@
                 <goal>integration-test</goal>
             </goals>
         </action>
+        <action>
+            <actionName>CUSTOM-Verify</actionName>
+            <displayName>Verify</displayName>
+            <goals>
+                <goal>verify</goal>
+            </goals>
+            <activatedProfiles>
+                <activatedProfile>default-profile</activatedProfile>
+            </activatedProfiles>
+        </action>
+        <action>
+            <actionName>CUSTOM-Exec</actionName>
+            <displayName>Exec</displayName>
+            <goals>
+                <goal>exec:java</goal>
+            </goals>
+        </action>
+        
+        
     </actions>

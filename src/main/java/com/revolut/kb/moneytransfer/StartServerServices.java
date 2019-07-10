@@ -48,6 +48,8 @@ public class StartServerServices {
 
     }
 
+    
+    // FIXME : Resources are not getting found when run from jar.
     private static void StartH2Database() {
         try {
           //  Server server = Server.createTcpServer().start();
@@ -55,9 +57,7 @@ public class StartServerServices {
             String url = "jdbc:h2:~/test";
             Class.forName("org.h2.Driver");
             Connection con = DriverManager.getConnection(url, "sa", "");
-            URL path = StartServerServices.class.getResource("moneytransferdata.sql");
-            File script = new File(path.toURI());
-    //    File script = new File(StartServerServices.class.getResource("/moneytransferdata.sql").getFile());
+          File script = new File(StartServerServices.class.getResource("/moneytransferdata.sql").getFile());
             RunScript.execute(con, new FileReader(script));
         } catch (ClassNotFoundException ex) {
             LOGGER.error("ClassNotFoundException \n{}", ex);
@@ -65,8 +65,6 @@ public class StartServerServices {
             LOGGER.error("SQLException \n{}", ex);
         } catch (FileNotFoundException ex) {
             LOGGER.error("FileNotFoundException \n {}", ex);
-        } catch (URISyntaxException ex) {
-            LOGGER.error("URISyntaxException \n {}", ex);
         }
 
     }
